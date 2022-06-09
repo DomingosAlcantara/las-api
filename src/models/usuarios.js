@@ -65,8 +65,8 @@ class Usuarios {
   }
 
   //Refatoração - OK
-  async buscaPorNome(nome) {
-    return await repositorio.buscaPorNome(nome);
+  async buscarPorNome(nome) {
+    return await repositorio.buscarPorNome(nome);
   }
 
   async buscarDadosPessoaisDoUsuario(id) {

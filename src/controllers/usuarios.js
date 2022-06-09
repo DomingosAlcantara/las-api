@@ -40,30 +40,46 @@ module.exports = (app) => {
   | Verificar com Tiago como podemos checar esses metodos
   |
   */
-  app.delete("/usuarios/:id", (req, res, next) => {
+  app.delete("/usuarios/:id", (req, res) => { 
     const id = parseInt(req.params.id);
+    // Usuarios.excluir(id)
+    //   .then(() => res.json({ id }))
+    //   .catch((erros) => res.status(204).json(erros));
+    // Usuarios.excluir(id)
+    //   .then(() => res.json(id? { id } : res.status(404).end()))
+    //   .catch((erros) => next(erros));
     Usuarios.excluir(id)
-      .then(() => res.status(204).json("Usuario excluido com sucesso"))
-      .catch((erros) => next(erros));
+      .then((resultado) =>
+        resultado.affectedRows !== 0
+          ? res.status(204).end()
+          : res.status(404).end()
+      )
+      .catch((erros) => res.status(500).json(erros));
   });
 
   //Refatoração - OK
   app.get("/usuarios/nome/:nome", (req, res, next) => {
     const nome = req.params.nome;
-    Usuarios.buscaPorNome(nome)
+    Usuarios.buscarPorNome(nome)
       .then((resultado) =>
-        resultado ? res.json(resultado) : res.status(404).send()
+        resultado ? res.json(resultado) : res.status(404).end()
       )
       .catch((erros) => next(erros));
   });
+  // app.get("/usuarios/nome/:nome", (req, res) => {
+  //   const nome = req.params.nome;
+  //   Usuarios.buscarPorNome(nome)
+  //     .then((resultados) => res.status(200).json(resultados))
+  //     .catch((erros) => res.status(400).json(erros));
+  // });
 
-  app.get("/usuarios/:id/dados-pessoais", (req, res, next) => {
+  app.get("/usuarios/:id/dados-pessoais", (req, res) => {
     const id = parseInt(req.params.id);
     Usuarios.buscarDadosPessoaisDoUsuario(id)
       .then((resultado) =>
-        resultado ? res.json(resultado) : res.status(404).send()
+        resultado ? res.json(resultado) : res.status(404).end()
       )
-      .catch((erros) => next(erros));
+      .catch((erros)  => res.status(500).json(erros));
   });
 
   app.put("/usuarios/:id/dados-pessoais", (req, res, next) => {

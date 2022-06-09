@@ -32,7 +32,7 @@ class Usuario {
     return query(sql, [valores, id]);
   }
 
-  buscaPorNome(nome) {
+  buscarPorNome(nome) {
     const sql = `${this.sqlBuscarPorNome} LIKE ?`;
 
     return query(sql, `%${nome}%`);

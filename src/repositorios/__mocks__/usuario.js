@@ -24,13 +24,20 @@ class Usuario {
   }
 
   excluir(id) {
-    return Promise.resolve(usuariosMock.pop((usuario) => usuario.id === id));
+    // return Promise.resolve(usuariosMock.pop((usuario) => usuario.id === id));
+    
+    return Promise.resolve(
+      id <= usuariosMock.length ? { affectedRows: 1 } : { affectedRows: 0 }
+    );
+
+    // return Promise.resolve(usuariosMock && id);
   }
 
   buscarPorNome(nome) {
     return Promise.resolve(
       usuariosMock.find((usuario) => usuario.nome.includes(nome))
     );
+    
   }
 
   buscarDadosPessoaisDoUsuario(id) {
