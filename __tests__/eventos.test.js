@@ -60,6 +60,7 @@ describe("API de Eventos", () => {
   });
 
   test("Adicionar Eventos com dados Validos", async () => {
+    Date.now = jest.fn(() => new Date("2022-05-15"));
     const resp = await request.post("/eventos").send({
       nome: "Batekoo",
       descricao: "Melhor festa de todas",
